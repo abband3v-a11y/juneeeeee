@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Direct DM</title>
+    <title>Send Affection 💖</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="card">
-        <h2>Direct Message</h2>
+        <h2 id="actionTitle">Send Love 💖</h2>
 
-        <div class="input-group">
-            <label for="senderName">Your Name</label>
-            <input type="text" id="senderName" placeholder="Enter your name">
+        <!-- Action Selector -->
+        <div class="action-selector">
+            <button class="type-btn active" onclick="setAction('love', '💖', 'loved', event)">Love 💖</button>
+            <button class="type-btn" onclick="setAction('pat', '🫳', 'patted', event)">Pat 🫳</button>
+            <button class="type-btn" onclick="setAction('kiss', '💋', 'kissed', event)">Kiss 💋</button>
         </div>
 
-        <div class="input-group">
-            <label for="targetId">Recipient Discord ID</label>
-            <input type="text" id="targetId" placeholder="e.g. 123456789012345678">
+        <input id="senderName" type="text" placeholder="Your Name">
+
+        <div class="toggles-row">
+            <div class="toggle-container">
+                <span>Send Anonymously</span>
+                <label class="switch">
+                    <input type="checkbox" id="anonToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-container">
+                <span>Send Silently</span>
+                <label class="switch">
+                    <input type="checkbox" id="silentToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label for="customMessage">Message</label>
-            <textarea id="customMessage" rows="4" placeholder="Type your message here..."></textarea>
+        <button id="actionButton" class="love-button">💖</button>
+
+        <div id="actionCount">
+            I love you 0 times
         </div>
 
-        <div class="toggles">
-            <label class="toggle-container">
-                <input type="checkbox" id="anonToggle">
-                <span class="checkmark"></span>
-                Send Anonymously
-            </label>
+        <input id="targetId" type="text" placeholder="Target ID">
 
-            <label class="toggle-container">
-                <input type="checkbox" id="silentToggle">
-                <span class="checkmark"></span>
-                Silent Notification (@silent)
-            </label>
-        </div>
+        <button class="send-btn" onclick="sendAction()">Send Message</button>
 
-        <button type="button" class="send-btn" onclick="sendCustomDM()">Send Message</button>
-        <p id="status"></p>
+        <div id="status"></div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
     </div>
 
     <script src="script.js"></script>
