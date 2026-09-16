@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Send DM</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h2>Send DM</h2>
+
+        <input
+            id="name"
+            type="text"
+            placeholder="Your Name"
+        >
+
+        <div class="toggle-container">
+            <span>Send Anonymously</span>
+
+            <label class="switch">
+                <input type="checkbox" id="anonToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="toggle-container">
+            <span>Send Silently</span>
+            <label class="switch">
+                <input type="checkbox" id="loveSilentToggle">
+                <span class="slider"></span>
+            </label>
+        </div>        
+
+        <input
+            id="targetId"
+            type="text"
+            placeholder="Target ID"
+        >
+
+        <textarea
+            id="message"
+            placeholder="Your Message"
+        ></textarea>
+
+        <button onclick="sendDM()">
+            Send DM
+        </button>
+
+        <div id="status"></div>
+
+        <button onclick="window.location.href='send.html'">
+            💖 Send Love
+        </button> 
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

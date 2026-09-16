@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Affection 💖</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h2 id="actionTitle">Send Love 💖</h2>
+
+        <!-- Action Selector -->
+        <div class="action-selector">
+            <button class="type-btn active" onclick="setAction('love', '💖', 'loved', event)">Love 💖</button>
+            <button class="type-btn" onclick="setAction('pat', '🫳', 'patted', event)">Pat 🫳</button>
+            <button class="type-btn" onclick="setAction('kiss', '💋', 'kissed', event)">Kiss 💋</button>
+        </div>
+
+        <input id="senderName" type="text" placeholder="Your Name">
+
+        <div class="toggles-row">
+            <div class="toggle-container">
+                <span>Send Anonymously</span>
+                <label class="switch">
+                    <input type="checkbox" id="anonToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-container">
+                <span>Send Silently</span>
+                <label class="switch">
+                    <input type="checkbox" id="silentToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <button id="actionButton" class="love-button">💖</button>
+
+        <div id="actionCount">
+            I love you 0 times
+        </div>
+
+        <input id="targetId" type="text" placeholder="Target ID">
+
+        <button class="send-btn" onclick="sendAction()">Send Message</button>
+
+        <div id="status"></div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
