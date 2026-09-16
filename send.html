@@ -3,54 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Affection 💖</title>
+    <title>Custom Direct DM</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="card">
-        <h2 id="actionTitle">Send Love 💖</h2>
+        <h2>Direct Message</h2>
 
-        <!-- Action Selector -->
-        <div class="action-selector">
-            <button class="type-btn active" onclick="setAction('love', '💖', 'loved', event)">Love 💖</button>
-            <button class="type-btn" onclick="setAction('pat', '🫳', 'patted', event)">Pat 🫳</button>
-            <button class="type-btn" onclick="setAction('kiss', '💋', 'kissed', event)">Kiss 💋</button>
+        <div class="input-group">
+            <label for="senderName">Your Name</label>
+            <input type="text" id="senderName" placeholder="Enter your name">
         </div>
 
-        <input id="senderName" type="text" placeholder="Your Name">
-
-        <div class="toggles-row">
-            <div class="toggle-container">
-                <span>Send Anonymously</span>
-                <label class="switch">
-                    <input type="checkbox" id="anonToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="toggle-container">
-                <span>Send Silently</span>
-                <label class="switch">
-                    <input type="checkbox" id="silentToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+        <div class="input-group">
+            <label for="targetId">Recipient Discord ID</label>
+            <input type="text" id="targetId" placeholder="e.g. 123456789012345678">
         </div>
 
-        <button id="actionButton" class="love-button">💖</button>
-
-        <div id="actionCount">
-            I love you 0 times
+        <div class="input-group">
+            <label for="customMessage">Message</label>
+            <textarea id="customMessage" rows="4" placeholder="Type your message here..."></textarea>
         </div>
 
-        <input id="targetId" type="text" placeholder="Target ID">
+        <div class="toggles">
+            <label class="toggle-container">
+                <input type="checkbox" id="anonToggle">
+                <span class="checkmark"></span>
+                Send Anonymously
+            </label>
 
-        <button class="send-btn" onclick="sendAction()">Send Message</button>
+            <label class="toggle-container">
+                <input type="checkbox" id="silentToggle">
+                <span class="checkmark"></span>
+                Silent Notification (@silent)
+            </label>
+        </div>
 
-        <div id="status"></div>
-
-        <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+        <button type="button" class="send-btn" onclick="sendCustomDM()">Send Message</button>
+        <p id="status"></p>
     </div>
 
     <script src="script.js"></script>
