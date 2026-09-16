@@ -55,7 +55,7 @@ h2 {
     font-weight: bold;
 }
 
-input[type="text"], textarea {
+input[type="text"] {
     width: 100%;
     padding: 12px;
     background: #2a2a2a;
@@ -66,11 +66,7 @@ input[type="text"], textarea {
     font-size: 0.95rem;
 }
 
-textarea {
-    resize: vertical;
-}
-
-input[type="text"]:disabled, textarea:disabled {
+input[type="text"]:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
