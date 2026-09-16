@@ -3,64 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Send DM</title>
-
+    <title>Send Love & Actions</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
     <div class="card">
+        <h2>Send a Message</h2>
+        
+        <div class="input-group">
+            <label for="senderName">Your Name</label>
+            <input type="text" id="senderName" placeholder="Enter your name">
+        </div>
 
-        <h2>Send DM</h2>
+        <div class="input-group">
+            <label for="targetId">Recipient Discord ID</label>
+            <input type="text" id="targetId" placeholder="e.g. 123456789012345678">
+        </div>
 
-        <input
-            id="name"
-            type="text"
-            placeholder="Your Name"
-        >
-
-        <div class="toggle-container">
-            <span>Send Anonymously</span>
-
-            <label class="switch">
+        <div class="toggles">
+            <label class="toggle-container">
                 <input type="checkbox" id="anonToggle">
-                <span class="slider"></span>
+                <span class="checkmark"></span>
+                Send Anonymously
+            </label>
+
+            <label class="toggle-container">
+                <input type="checkbox" id="silentToggle">
+                <span class="checkmark"></span>
+                Silent Notification (@silent)
             </label>
         </div>
-        <div class="toggle-container">
-            <span>Send Silently</span>
-            <label class="switch">
-                <input type="checkbox" id="loveSilentToggle">
-                <span class="slider"></span>
-            </label>
-        </div>        
 
-        <input
-            id="targetId"
-            type="text"
-            placeholder="Target ID"
-        >
+        <div class="action-selector">
+            <button type="button" class="action-btn active" onclick="setAction('love', 'loves', '❤️')">❤️ Love</button>
+            <button type="button" class="action-btn" onclick="setAction('pat', 'patted', '🐾')">🐾 Pat</button>
+            <button type="button" class="action-btn" onclick="setAction('kiss', 'kissed', '💋')">💋 Kiss</button>
+        </div>
 
-        <textarea
-            id="message"
-            placeholder="Your Message"
-        ></textarea>
+        <div class="clicker-section">
+            <button type="button" class="clicker-btn" onclick="incrementAction()">
+                <span id="actionCounter">0</span>
+            </button>
+            <p class="click-hint">Click to stack!</p>
+        </div>
 
-        <button onclick="sendDM()">
-            Send DM
-        </button>
-
-        <div id="status"></div>
-
-        <button onclick="window.location.href='send.html'">
-            💖 Send Love
-        </button> 
-
+        <button type="button" class="send-btn" onclick="sendAction()">Send Message</button>
+        <p id="status"></p>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
