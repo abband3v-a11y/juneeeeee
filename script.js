@@ -1,128 +1,48 @@
-const TUNNEL_URL =
-    "https://singer-moral-changes-improvement.trycloudflare.com";
+const TUNNEL_URL = "https://your-tunnel-subdomain.trycloudflare.com";
 
-let currentAction = 'love';
-let actionEmoji = '💖';
-let actionVerb = 'loved';
 let actionCount = 0;
+let currentAction = 'love';
+let actionVerb = 'loves';
+let actionEmoji = '❤️';
 
+let isCooldown = false;
+const COOLDOWN_SECONDS = 5;
 
-// ==================================================
-// ANONYMOUS TOGGLE LOGIC
-// ==================================================
-
-const anonToggle = document.getElementById("anonToggle");
-if (anonToggle) {
-    const nameInput = document.getElementById("senderName");
-    anonToggle.addEventListener("change", function () {
-        if (this.checked) {
-            nameInput.value = "";
-            nameInput.disabled = true;
-            nameInput.placeholder = "Anonymous mode";
-        } else {
-            nameInput.disabled = false;
-            nameInput.placeholder = "Your Name";
-        }
-    });
+function incrementAction() {
+    actionCount++;
+    const counterDisplay = document.getElementById("actionCounter");
+    if (counterDisplay) {
+        counterDisplay.textContent = actionCount;
+    }
 }
 
-
-// ==================================================
-// DEV TOOLS (set.love, set.pat, set.kiss)
-// ==================================================
-
-window.set = {
-    love: function (num) {
-        const target = parseInt(num, 10);
-        if (isNaN(target)) return console.error("❌ DevMode Error: Pass a number, e.g. set.love(100)");
-
-        setAction('love', '💖', 'loved', null);
-        actionCount = target;
-        updateCounterText();
-        console.log(`%c💖 DevMode: Love count set to ${actionCount}`, "color: #ff69b4; font-weight: bold;");
-    },
-
-    pat: function (num) {
-        const target = parseInt(num, 10);
-        if (isNaN(target)) return console.error("❌ DevMode Error: Pass a number, e.g. set.pat(100)");
-
-        setAction('pat', '🫳', 'patted', null);
-        actionCount = target;
-        updateCounterText();
-        console.log(`%c🫳 DevMode: Pat count set to ${actionCount}`, "color: #eab308; font-weight: bold;");
-    },
-
-    kiss: function (num) {
-        const target = parseInt(num, 10);
-        if (isNaN(target)) return console.error("❌ DevMode Error: Pass a number, e.g. set.kiss(100)");
-
-        setAction('kiss', '💋', 'kissed', null);
-        actionCount = target;
-        updateCounterText();
-        console.log(`%c💋 DevMode: Kiss count set to ${actionCount}`, "color: #ef4444; font-weight: bold;");
-    }
-};
-
-
-// ==================================================
-// ACTION SWITCHER
-// ==================================================
-
-function setAction(type, emoji, verb, evt) {
-    currentAction = type;
-    actionEmoji = emoji;
+function setAction(action, verb, emoji) {
+    currentAction = action;
     actionVerb = verb;
+    actionEmoji = emoji;
     actionCount = 0;
-
-    // Update active tab styling
-    document.querySelectorAll('.type-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.textContent.toLowerCase().includes(type)) {
-            btn.classList.add('active');
-        }
-    });
-
-    const titleEl = document.getElementById("actionTitle");
-    const btnEl = document.getElementById("actionButton");
-
-    if (titleEl) titleEl.textContent = `Send ${type.charAt(0).toUpperCase() + type.slice(1)} ${emoji}`;
-    if (btnEl) btnEl.textContent = emoji;
-
-    updateCounterText();
-}
-
-function updateCounterText() {
-    const textEl = document.getElementById("actionCount");
-    if (!textEl) return;
-
-    if (currentAction === 'love') {
-        textEl.textContent = `I love you ${actionCount} times`;
-    } else {
-        textEl.textContent = `I ${actionVerb} you ${actionCount} times`;
+    
+    const counterDisplay = document.getElementById("actionCounter");
+    if (counterDisplay) {
+        counterDisplay.textContent = actionCount;
     }
-}
-
-
-// ==================================================
-// CLICK & SEND HANDLERS
-// ==================================================
-
-const actionBtn = document.getElementById("actionButton");
-if (actionBtn) {
-    actionBtn.addEventListener("click", () => {
-        actionCount++;
-        updateCounterText();
-    });
 }
 
 async function sendAction() {
     const status = document.getElementById("status");
+    const sendBtn = document.querySelector(".send-btn");
     const isAnon = document.getElementById("anonToggle")?.checked || false;
     const isSilent = document.getElementById("silentToggle")?.checked || false;
 
+    if (isCooldown) {
+        status.textContent = "⏳ Slow down! Please wait a moment.";
+        status.style.color = "#eab308";
+        return;
+    }
+
     const nameInput = document.getElementById("senderName");
     const name = isAnon ? "Someone" : (nameInput ? nameInput.value.trim() : "");
-    const targetId = document.getElementById("targetId").value.trim();
+    const targetId = document.getElementById("targetId")?.value.trim();
 
     if ((!isAnon && !name) || !targetId) {
         status.textContent = "❌ Fill in required fields!";
@@ -136,7 +56,6 @@ async function sendAction() {
         return;
     }
 
-    // Format message
     let message = currentAction === 'love'
         ? `${name} loves you ${actionCount} times`
         : `${name} ${actionVerb} you ${actionCount} times`;
@@ -159,6 +78,8 @@ async function sendAction() {
         if (response.ok) {
             status.textContent = "✅ " + data.status;
             status.style.color = "#51cf66";
+
+            startCooldown(sendBtn);
         } else {
             status.textContent = "❌ " + (data.error || "Failed to send.");
             status.style.color = "#ff6b6b";
@@ -168,4 +89,25 @@ async function sendAction() {
         status.textContent = "❌ Backend offline or wrong tunnel URL!";
         status.style.color = "#ff6b6b";
     }
+}
+
+function startCooldown(button) {
+    isCooldown = true;
+    let timeLeft = COOLDOWN_SECONDS;
+    
+    if (button) button.disabled = true;
+
+    const timer = setInterval(() => {
+        if (button) button.textContent = `Wait (${timeLeft}s)`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            clearInterval(timer);
+            isCooldown = false;
+            if (button) {
+                button.disabled = false;
+                button.textContent = "Send Message";
+            }
+        }
+    }, 1000);
 }
